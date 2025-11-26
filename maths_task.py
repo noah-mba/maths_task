@@ -53,7 +53,7 @@ win.mouseVisible = False
 ##--------------------------------------------
 
 # 1. Instructions
-instr_text = "Welcome!\n\nYou will see a series of math operations.\nType the answer using the number keys.\nPress ENTER to submit your answer.\n\nType quickly and accurately.\n\nPress SPACE to start."
+instr_text = "¡Bienvenido!\n\nVerás una serie de operaciones matemáticas.\nEscribe la respuesta usando las teclas numéricas.\nPulsa INTRO para confirmar tu respuesta.\n\nResponde de forma rápida y precisa.\n\nPulsa ESPACIO para comenzar."
 instructions = visual.TextStim(win, text=instr_text, color='white', height=30, wrapWidth=800)
 
 # 2. Problem Text (The Question)
@@ -63,7 +63,7 @@ problem_stim = visual.TextStim(win, text='PlaceHolder', pos=(0, 100), height=50,
 answer_stim = visual.TextStim(win, text='', pos=(0, -50), height=50, color='lime')
 
 # 4. Prompt Text
-prompt_stim = visual.TextStim(win, text='Type answer and press Enter', pos=(0, -150), height=20, color='gray')
+prompt_stim = visual.TextStim(win, text='Escribe la respuesta y pulsa INTRO', pos=(0, -150), height=20, color='gray')
 
 ##-------------------------------------------------
 ## Data Handling
@@ -183,7 +183,7 @@ for trial in trials:
         thisExp.nextEntry() # Save row to CSV
 
 # --- End Experiment ---
-end_text = visual.TextStim(win, text="Time is up!\n\nThank you for participating.", color='white')
+end_text = visual.TextStim(win, text="¡Se ha acabado el tiempo!\n\nGracias por participar.", color='white')
 end_text.draw()
 win.flip()
 core.wait(3)
