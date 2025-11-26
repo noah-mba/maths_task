@@ -17,7 +17,7 @@ psychopyVersion = '2025.1.1'
 
 # Global quit keys
 for key in ['escape']:
-    event.globalKeys.add(key, func=core.quit)
+    event.globalKeys.add(key, func=core.quit) # this ensure that the experiment quits when we press escape
 
 # Information about this experiment
 expInfo = {
@@ -31,6 +31,7 @@ expInfo = {
 ##-------------------------------------------------
 ## GUI for participants info
 ##-------------------------------------------------
+# Use this dict to create the dlg
 dlg = gui.DlgFromDict(dictionary=expInfo, title=expName, sortKeys=False)
 if not dlg.OK:
     core.quit()
@@ -39,7 +40,7 @@ if not dlg.OK:
 ## Creating a window
 ##--------------------------------------------
 win = visual.Window(size=(1024, 768), 
-                    fullscr=False, # Set to True for actual experiment
+                    fullscr=True, # Set to True for actual experiment
                     screen=0, 
                     units='pix',
                     allowGUI=False, 
@@ -53,7 +54,7 @@ win.mouseVisible = False
 ##--------------------------------------------
 
 # 1. Instructions
-instr_text = "¡Bienvenido!\n\nVerás una serie de operaciones matemáticas.\nEscribe la respuesta usando las teclas numéricas.\nPulsa INTRO para confirmar tu respuesta.\n\nResponde de forma rápida y precisa.\n\nPulsa ESPACIO para comenzar."
+instr_text = "¡Bienvenido!\n\nVerás una serie de operaciones matemáticas.\nEscribe la respuesta usando las teclas numéricas.\nPulsa INTRO para confirmar tu respuesta.\n\nResponde de forma precisa.\n\nPulsa ESPACIO para comenzar."
 instructions = visual.TextStim(win, text=instr_text, color='white', height=30, wrapWidth=800)
 
 # 2. Problem Text (The Question)
