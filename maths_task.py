@@ -1,9 +1,50 @@
 ##--------------------------------------------
 ## Importing modules
 ##--------------------------------------------
-from psychopy import core, visual, event, data, gui
+from psychopy import core, visual, event, data, gui, parallel
 import numpy as np
 import os
+
+
+##--------------------------------------------
+## --- EEG TRIGGER SETUP (NEW SECTION) ---
+##--------------------------------------------
+# --- TRIGGER CONFIGURATION ---
+trigger_start = 7
+trigger_end   = 8
+
+# 1. Configuration
+# Set this to True. If the port is not found (e.g., on a laptop), 
+# it will automatically switch to "Dummy Mode" and print to the console instead.
+use_eeg = True 
+
+# 2. Port Address
+# Standard LPT1 is 0x0378. PCIe cards are often 0xD010. Change if necessary.
+eeg_port_address = 0x0378 
+
+# 3. Initialize Port
+if use_eeg:
+    try:
+        port = parallel.ParallelPort(address=eeg_port_address)
+        port.setData(0) # Reset all pins to low
+        print(f"EEG Port opened at {hex(eeg_port_address)}")
+    except:
+        print("Could not open Parallel Port. Switching to DUMMY MODE (printing triggers).")
+        use_eeg = False
+
+# 4. Define Trigger Function
+def send_trigger(code):
+    """
+    Sends a specific integer code to the EEG amplifier.
+    Pulse width is set to 5ms.
+    """
+    if use_eeg:
+        port.setData(int(code))    # Pin High
+        core.wait(0.005)           # Wait 5ms
+        port.setData(0)            # Pin Low
+    else:
+        # Dummy mode for testing on laptop
+        print(f">>> EEG TRIGGER SENT: {code}")
 
 ## ----------------------
 ## Setup global variables
@@ -103,6 +144,12 @@ instructions.draw()
 win.flip()
 event.waitKeys(keyList=['space'])
 
+# -------------------------------------------------
+# [EEG] START TRIGGER
+# This runs immediately after Space is pressed
+# -------------------------------------------------
+send_trigger(trigger_start)
+
 # --- Start Global Timer (5 Minutes) ---
 experiment_timer = core.Clock()
 TIME_LIMIT = 300.0 # 5 minutes in seconds
@@ -182,6 +229,12 @@ for trial in trials:
         trials.addData('rt', response_time)
         
         thisExp.nextEntry() # Save row to CSV
+
+# -------------------------------------------------
+# [EEG] END TRIGGER
+# Runs when loop is done (either all trials solved OR time limit reached)
+# -------------------------------------------------
+send_trigger(trigger_end)
 
 # --- End Experiment ---
 end_text = visual.TextStim(win, text="¡Se ha acabado el tiempo!\n\nGracias por participar.", color='white')
