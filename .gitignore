@@ -1,0 +1,12 @@
+# --- PsychoPy Data ---
+data/
+*.psydat
+*.log
+
+# --- Python Generated Files ---
+__pycache__/
+*.pyc
+
+# --- System Files ---
+.DS_Store
+Thumbs.db
